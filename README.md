@@ -42,5 +42,12 @@ Dataset 1:\
 Dataset 2:\
 ![alt text](./d2_pred.JPG)
 
+## Pipeline
 
+- Take photo
+- Save to images/utrecht_{month}_{day}_{year}
+- Run "annotate" on folder above using --img-folder
+- Annotate images manually
+- Run "combine_labels"
+- Run "crop_images" with --size=800 and appropriate --labels-path
 

@@ -190,8 +190,8 @@ def draw(img, xy, cfg, circles, score, color=(255, 255, 0)):
     if xy.shape[0] > 4 and score:
         scores = get_dart_scores(xy, cfg)
     font = cv2.FONT_HERSHEY_SIMPLEX
-    font_scale = 0.5
-    line_type = 1
+    font_scale = 2
+    line_type = 5
     for i, [x, y] in enumerate(xy):
         if i < 4:
             c = (0, 255, 0)  # green
@@ -200,7 +200,7 @@ def draw(img, xy, cfg, circles, score, color=(255, 255, 0)):
         x = int(round(x))
         y = int(round(y))
         if i >= 4:
-            cv2.circle(img, (x, y), 1, c, 1)
+            cv2.circle(img, (x, y), 10, c, 1)
             if score:
                 txt = str(scores[i - 4])
             else:
@@ -208,7 +208,7 @@ def draw(img, xy, cfg, circles, score, color=(255, 255, 0)):
             cv2.putText(img, txt, (x + 8, y), font,
                     font_scale, c, line_type)
         else:
-            cv2.circle(img, (x, y), 1, c, 1)
+            cv2.circle(img, (x, y), 10, c, 1)
             cv2.putText(img, str(i + 1), (x + 8, y), font,
                         font_scale, c, line_type)
     return img
@@ -289,9 +289,9 @@ def get_bounding_box(img_path, scale=0.2):
 
 def main(cfg, folder, scale, draw_circles, dart_score=True):
     global xy, img_copy
-    img_dir = osp.join(cfg.data.path, 'images', folder)
+    img_dir = osp.join("../", cfg.data.path, 'images', folder)
     imgs = sorted(os.listdir(img_dir))
-    annot_path = osp.join(cfg.data.path, 'annotations', folder + '.pkl')
+    annot_path = osp.join("../", cfg.data.path, 'annotations', folder + '.pkl')
     if osp.isfile(annot_path):
         annot = pd.read_pickle(annot_path)
     else:
@@ -320,6 +320,8 @@ def main(cfg, folder, scale, draw_circles, dart_score=True):
                     xy = last_a['xy'].copy()
             else:
                 xy = []
+        elif a['xy'] is None:
+            bbox = a['bbox']
         else:
             bbox, xy = a['bbox'], a['xy']
 
@@ -331,7 +333,7 @@ def main(cfg, folder, scale, draw_circles, dart_score=True):
         cv2.namedWindow(folder)
         cv2.setMouseCallback(folder, on_click)
         while True:
-            img_copy = draw(img_copy, xy, cfg, draw_circles, dart_score)
+            img_copy = draw(img_copy, np.array(xy), cfg, draw_circles, dart_score)
             cv2.imshow(folder, img_copy)
             key = cv2.waitKey(100) & 0xFF  # update every 100 ms
 
@@ -362,8 +364,7 @@ def main(cfg, folder, scale, draw_circles, dart_score=True):
 
             if key == ord('x'):  # reset annotation
                 idx = annot[(annot['img_name'] == a['img_name'])].index.values[0]
-                annot.at[idx, 'xy'] = None,
-                annot.at[idx, 'bbox'] = None
+                annot.at[idx, 'xy'] = None
                 annot.to_pickle(annot_path)
                 break
 
@@ -405,6 +406,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     cfg = CN(new_allowed=True)
-    cfg.merge_from_file('../configs/tiny480_20e.yaml')
+    cfg.merge_from_file('../configs/deepdarts_utrecht.yaml')
 
     main(cfg, args.img_folder, args.scale, args.draw_circles)

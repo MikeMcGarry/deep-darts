@@ -12,7 +12,7 @@ def crop(img_path, write_path, bbox, size=480, overwrite=False):
         print(write_path, 'already exists')
         return
 
-    os.makedirs(osp.join('/', *write_path.split('/')[:-1]), exist_ok=True)
+    os.makedirs(osp.join(*write_path.split('/')[:-1]), exist_ok=True)
     crop, _ = crop_board(img_path, bbox)
     if size != 'full':
         crop = cv2.resize(crop, (size, size))
@@ -34,7 +34,7 @@ if __name__ == '__main__':
         data = pd.read_pickle(args.labels_path)
 
         read_prefix = args.image_path
-        write_prefix = osp.join('/', *args.image_path.split('/')[:-1], 'cropped_images', str(size))
+        write_prefix = osp.join(*args.image_path.split('/')[:-1], 'cropped_images', str(size))
 
         print('Read path:', read_prefix)
         print('Write path:', write_prefix)

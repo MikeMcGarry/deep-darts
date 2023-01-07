@@ -142,7 +142,7 @@ def predict(
 if __name__ == '__main__':
     from train import build_model
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--cfg', default='deepdarts_d1')
+    parser.add_argument('-c', '--cfg', default='deepdarts_utrecht')
     parser.add_argument('-s', '--split', default='train')
     parser.add_argument('-w', '--write', action='store_true')
     parser.add_argument('-f', '--fail-cases', action='store_true')

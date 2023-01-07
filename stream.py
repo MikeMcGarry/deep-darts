@@ -17,21 +17,20 @@ def predict_stream(yolo):
 
     while True:
         check, frame = cam.read()
-        i += 1
+        # Resize frame to 800x800
+        img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        img = img[0:980, 400:1020]
+        img = cv2.resize(img, (800, 800))
+        bboxes = yolo.predict(img)
+        preds = bboxes_to_xy(bboxes, 3)
+        xy = preds
+        xy = xy[xy[:, -1] == 1]
+        img = draw(cv2.cvtColor(img, cv2.COLOR_RGB2BGR), xy[:, :2], cfg, circles=False, score=True)
+        cv2.imshow('video', img)
 
-        if i % 60 == 0:
-            # Resize frame to 800x800
-            img = cv2.resize(frame, (800, 800))
-            bboxes = yolo.predict(img)
-            preds = bboxes_to_xy(bboxes, 3)
-            xy = preds
-            xy = xy[xy[:, -1] == 1]
-            img = draw(cv2.cvtColor(img, cv2.COLOR_RGB2BGR), xy[:, :2], cfg, circles=False, score=True)
-            cv2.imshow('video', img)
-
-            key = cv2.waitKey(1)
-            if key == 'z':
-                break
+        key = cv2.waitKey(1)
+        if key == 'z':
+            break
 
     cam.release()
     cv2.destroyAllWindows()

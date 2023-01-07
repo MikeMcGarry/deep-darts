@@ -20,7 +20,7 @@ datasets = {
     },
     "utrecht": {
         "val": ['utrecht_01_04_2023'],
-        "test": ['utrecht_01_07_2023_02']
+        "test": ['utrecht_01_07_2023_2']
     }
 }
 

@@ -1,3 +1,6 @@
 __pycache__
 .idea/
 dataset/images/
+dataset/cropped_images/800/d1_*
+dataset/cropped_images/800/d2_*
+models/*/preds/

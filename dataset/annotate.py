@@ -176,9 +176,35 @@ def get_dart_scores(xy, cfg, numeric=False):
                     scores[i] = int(s)
     return scores
 
+def total_score(scores):
+
+    if len(scores) == 0:
+        return 0
+
+    total = 0
+
+    for score in scores:
+        try:
+            total += int(score)
+        except ValueError:
+            if score == "DB":
+                total += 50
+                continue
+            elif score == "B":
+                total += 25
+
+            elif score[0] == "D":
+                total += int(score[1:]) * 2
+            elif score[0] == "T":
+                total += int(score[1:]) * 3
+
+    return total
 
 def draw(img, xy, cfg, circles, score, color=(255, 255, 0)):
     xy = np.array(xy)
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    font_scale = 2
+    line_type = 5
     if xy.shape[0] > 7:
         xy = xy.reshape((-1, 2))
     if np.mean(xy) < 1:
@@ -189,9 +215,8 @@ def draw(img, xy, cfg, circles, score, color=(255, 255, 0)):
         img = draw_circles(img, xy, cfg)
     if xy.shape[0] > 4 and score:
         scores = get_dart_scores(xy, cfg)
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    font_scale = 2
-    line_type = 5
+        cv2.putText(img, str(total_score(scores)), (50, 50), font,
+                    font_scale, (255, 255, 255), line_type)
     for i, [x, y] in enumerate(xy):
         if i < 4:
             c = (0, 255, 0)  # green
@@ -210,7 +235,7 @@ def draw(img, xy, cfg, circles, score, color=(255, 255, 0)):
         else:
             cv2.circle(img, (x, y), 10, c, 1)
             cv2.putText(img, str(i + 1), (x + 8, y), font,
-                        font_scale, c, line_type)
+                        font_scale/2, c, line_type)
     return img
 
 

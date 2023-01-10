@@ -13,13 +13,16 @@ from predict import bboxes_to_xy
 def predict_stream(yolo):
 
     cam = cv2.VideoCapture(0)
+    print(cam.get(cv2.CAP_PROP_FRAME_WIDTH))
+    print(cam.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    print(cam.get(cv2.CAP_PROP_FPS))
     i = 0
 
     while True:
         check, frame = cam.read()
         # Resize frame to 800x800
         img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        img = img[0:980, 400:1020]
+        img = img[50:1000, 400:1000]
         img = cv2.resize(img, (800, 800))
         bboxes = yolo.predict(img)
         preds = bboxes_to_xy(bboxes, 3)

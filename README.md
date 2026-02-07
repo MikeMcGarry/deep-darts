@@ -1,5 +1,7 @@
 # DeepDarts
 
+> **Note:** This repository contains fine-tuned models based on the original [DeepDarts](https://github.com/wmcnally/deep-darts) project by wmcnally. See the original repository and paper for foundational work.
+
 Code for the CVSports 2021 paper: [DeepDarts: Modeling Keypoints as Objects for Automatic Scorekeeping in Darts using a Single Camera](https://arxiv.org/abs/2105.09880)
 
 ## Prerequisites
@@ -8,7 +10,7 @@ Python 3.5-3.8, CUDA >= 10.1, cuDNN >= 7.6
 ## Setup
 1. [Install Anaconda or Miniconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
 2. Create a new conda environment with Python 3.7: ```$ conda create -n deep-darts python==3.7```. Activate the environment: ```$ conda activate deep-darts```
-4. Clone this repo: ```$ git clone https://github.com/wmcnally/deep-darts.git```
+4. Clone this repo: ```$ git clone https://github.com/MikeMcGarry/deep-darts.git```
 5. Go into the directory and install the dependencies: ```$ cd deep-darts && pip install -r requirements.txt```
 6. Download ```images.zip``` from [IEEE Dataport](https://ieee-dataport.org/open-access/deepdarts-dataset) 
    and extract in the ```dataset``` directory. Crop the images: ```$ python crop_images.py --size 800```. This step could

@@ -1,6 +1,6 @@
 # DeepDarts
 
-> **Note:** This repository contains fine-tuned models based on the original [DeepDarts](https://github.com/wmcnally/deep-darts) project by wmcnally. See the original repository and paper for foundational work.
+> **Note:** This repository contains fine-tuned models based on the original [DeepDarts](https://github.com/wmcnally/deep-darts) project. Many thanks to wmcnally and the original authors for their excellent foundational work — this project wouldn't be possible without it.
 
 Code for the CVSports 2021 paper: [DeepDarts: Modeling Keypoints as Objects for Automatic Scorekeeping in Darts using a Single Camera](https://arxiv.org/abs/2105.09880)
 
